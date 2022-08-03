@@ -16,7 +16,7 @@ class FirstScreen extends StatefulWidget {
 class _FirstScreenState extends State<FirstScreen> {
   List<Map<String, dynamic>> allUser = UserList().allUser;
   List<Map<String, dynamic>> findUser = [];
-  TextEditingController textController= TextEditingController();
+  //TextEditingController textController= TextEditingController();
 
   @override
   void initState() {
@@ -100,7 +100,7 @@ class _FirstScreenState extends State<FirstScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: HelperClass.h30,
+                    height: HelperClass.h25,
                   ),
                   //Search Bar
                   Container(
@@ -110,7 +110,7 @@ class _FirstScreenState extends State<FirstScreen> {
                     height: HelperClass.h70,
                     width: double.infinity,
                     child: TextField(
-                      controller: textController,
+                     // controller: textController,
                       onChanged: (value)=>searchUserFromList(value),
 
                       decoration: InputDecoration(
