@@ -34,35 +34,23 @@ class ProfilePage extends StatelessWidget {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: AppColors.gradientColor,
-                )
+                ),
+
               ),
               child: FlexibleSpaceBar(
                 background: Padding(
                   padding: EdgeInsets.only(
-                    top: 20,
+                    top: HelperClass.h20,
                   ),
                   child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      // Navigation Icon
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: [
-                      //     IconButton(
-                      //         onPressed: () {},
-                      //         icon: Icon(Icons.arrow_back_ios_new)),
-                      //     IconButton(
-                      //         onPressed: () {},
-                      //         icon: Icon(Icons.messenger_outline)),
-                      //   ],
-                      // ),
-                      // Image
                       SizedBox(
                         height: 40,
                       ),
                       CircleAvatar(
-                        backgroundImage: AssetImage('assets/images/avatar01.jpg'),
-                        radius: 50,
+                        backgroundImage:
+                            AssetImage('assets/images/avatar01.jpg'),
+                        radius: HelperClass.r50,
                       ),
                       SizedBox(
                         height: 15,
@@ -116,15 +104,7 @@ class ProfilePage extends StatelessWidget {
                                 )
                               ],
                             ),
-                            // Container(
-                            //   alignment: Alignment.center,
-                            //   height: 50,
-                            //   width: 100,
-                            //   decoration: BoxDecoration(
-                            //       color: Colors.red,
-                            //       borderRadius: BorderRadius.circular(30)),
-                            //   child: Text('Follow'),
-                            // ),
+
                             InkWell(
                               child: ActionButton(
                                 buttonName: 'Follow',
@@ -168,19 +148,6 @@ class ProfilePage extends StatelessWidget {
                 ],
               ),
             )
-                //   Padding(
-                //   padding: EdgeInsets.all(10),
-                //   child: Column(
-                //     children: [
-                //       ListTileWidgets(
-                //         name: 'MD Fazle Rabbi',
-                //         followersCount: '400 Followers',
-                //         iconWidget: Icon(Icons.person_outline_outlined, color: Colors.red,size: 25,),
-                //       ),
-                //       AppLine(paddingLeft: 10, paddingRight: 10, heightLine: 1, lineColor: Colors.grey),
-                //     ],
-                //   ),
-                // )
 
                 ;
           })),

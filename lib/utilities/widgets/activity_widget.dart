@@ -17,7 +17,7 @@ class ActivityWidget extends StatelessWidget {
           //icon and the text
           Row(
             children: [
-              Icon(Icons.shopping_cart_outlined, size: 25),
+              Icon(Icons.shopping_cart_outlined, size: 25, color: Colors.redAccent,),
               SizedBox(
                 width: 10,
               ),
@@ -27,12 +27,14 @@ class ActivityWidget extends StatelessWidget {
               ),
             ],
           ),
+          SizedBox(height: 20,),
           // iamge text date
           Row(
             children: [
               //image
               CircleAvatar(
-                backgroundImage: NetworkImage('https://pics.freeicons.io/uploads/icons/png/9311412861606062171-512.png'),
+                backgroundImage: NetworkImage(
+                    'https://pics.freeicons.io/uploads/icons/png/9311412861606062171-512.png'),
                 radius: 40,
               ),
               // name address
@@ -42,7 +44,10 @@ class ActivityWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    BigText(content: 'Hilsson collage Uk', textSize: 16),
+                    BigText(
+                      content: 'Hilsson collages Uk',
+                      textSize: 16,
+                    ),
                     SmallText(
                       content: "2016/2017",
                       textSize: 16,
