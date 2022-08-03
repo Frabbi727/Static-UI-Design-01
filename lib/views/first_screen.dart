@@ -1,7 +1,5 @@
-import 'dart:ffi';
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:learning_1ui_6228/model/user_list.dart';
 import 'package:learning_1ui_6228/utilities/app_colors.dart';
 import 'package:learning_1ui_6228/utilities/helper.dart';
 import 'package:learning_1ui_6228/utilities/widgets/app_line.dart';
@@ -16,7 +14,33 @@ class FirstScreen extends StatefulWidget {
 }
 
 class _FirstScreenState extends State<FirstScreen> {
-  var extraSize;
+  List<Map<String, dynamic>> allUser = UserList().allUser;
+  List<Map<String, dynamic>> findUser = [];
+  TextEditingController textController= TextEditingController();
+
+  @override
+  void initState() {
+    findUser = allUser;
+    super.initState();
+  }
+
+  void searchUserFromList(String enteredWord) {
+    print(enteredWord);
+    List<Map<String, dynamic>> result = [];
+    print('THis result List'+ result.toString());
+    if (enteredWord.isEmpty) {
+      result = allUser;
+    } else {
+      result = allUser
+          .where((user) =>
+              user["name"].toLowerCase().contains(enteredWord.toLowerCase()))
+          .toList();
+    }
+    setState(() {
+      findUser = result;
+    });
+    print(findUser);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +110,9 @@ class _FirstScreenState extends State<FirstScreen> {
                     height: HelperClass.h70,
                     width: double.infinity,
                     child: TextField(
+                      controller: textController,
+                      onChanged: (value)=>searchUserFromList(value),
+
                       decoration: InputDecoration(
                         prefixIcon: Icon(Icons.search),
                         suffixIcon: Icon(Icons.clear),
@@ -105,32 +132,39 @@ class _FirstScreenState extends State<FirstScreen> {
 
             // List View
             Expanded(
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: 15,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Column(
-                          children: [
-                            ListTileWidgets(
-                              name: 'MD Fazle Rabbi',
-                              followersCount: '400 Followers',
-                              iconWidget: Icon(
-                                Icons.person_add_alt_outlined,
-                                color: Colors.red,
-                                size: 25,
-                              ),
+                child: findUser.isNotEmpty
+                    ? ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: findUser.length,
+                        itemBuilder: (context, index) {
+                          
+
+                          return Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Column(
+                              key: ValueKey(findUser[index]),
+                              children: [
+                                ListTileWidgets(
+                                  name: allUser[index]['name'],
+                                  followersCount: allUser[index]['Followers'],
+                                  iconWidget: Icon(
+                                    Icons.person_add_alt_outlined,
+                                    color: Colors.red,
+                                    size: 25,
+                                  ),
+                                ),
+                                AppLine(
+                                    paddingLeft: 10,
+                                    paddingRight: 10,
+                                    heightLine: 1,
+                                    lineColor: Colors.grey),
+                              ],
                             ),
-                            AppLine(
-                                paddingLeft: 10,
-                                paddingRight: 10,
-                                heightLine: 1,
-                                lineColor: Colors.grey),
-                          ],
-                        ),
-                      );
-                    })),
+                          );
+                        })
+                    : Container(
+                        child: Text("No user Found"),
+                      )),
           ],
         ),
       ),
