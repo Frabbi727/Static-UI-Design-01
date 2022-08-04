@@ -9,7 +9,8 @@ class ActivityWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
-    String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(now);
+    String formattedDate = DateFormat('EE, d-MMM, h.m').format(now);
+
     return Container(
       margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
       child: Column(
@@ -17,7 +18,11 @@ class ActivityWidget extends StatelessWidget {
           //icon and the text
           Row(
             children: [
-              Icon(Icons.shopping_cart_outlined, size: 25, color: Colors.redAccent,),
+              Icon(
+                Icons.shopping_cart_outlined,
+                size: 25,
+                color: Colors.redAccent,
+              ),
               SizedBox(
                 width: 10,
               ),
@@ -27,7 +32,9 @@ class ActivityWidget extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 20,),
+          SizedBox(
+            height: 20,
+          ),
           // iamge text date
           Row(
             children: [
