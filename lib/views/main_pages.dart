@@ -13,19 +13,21 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  List pages=[
+  List pages = [
     FirstScreen(),
     LocationPage(),
     ToDoPage(),
     ProfilePage(),
     LastPage(),
   ];
-  int currentPageIndex=0;
-  void onTapPage(int index){
-   setState((){
-     currentPageIndex=index;
-   });
+  int currentPageIndex = 0;
+
+  void onTapPage(int index) {
+    setState(() {
+      currentPageIndex = index;
+    });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +35,7 @@ class _MainPageState extends State<MainPage> {
       bottomNavigationBar: BottomNavigationBar(
         iconSize: 30,
         type: BottomNavigationBarType.fixed,
-       // backgroundColor: Colors.red,
+        // backgroundColor: Colors.red,
         onTap: onTapPage,
 
         selectedItemColor: Color(0xffffb9b7),
@@ -44,11 +46,12 @@ class _MainPageState extends State<MainPage> {
         currentIndex: currentPageIndex,
         items: [
           BottomNavigationBarItem(label: 'Home', icon: Icon(Icons.home)),
-          BottomNavigationBarItem(label: 'Location ', icon: Icon(Icons.location_pin)),
-          BottomNavigationBarItem(label: 'To DO ', icon: Icon(Icons.calendar_today)),
+          BottomNavigationBarItem(
+              label: 'Location ', icon: Icon(Icons.location_pin)),
+          BottomNavigationBarItem(
+              label: 'To DO ', icon: Icon(Icons.calendar_today)),
           BottomNavigationBarItem(label: 'Profile', icon: Icon(Icons.person)),
           BottomNavigationBarItem(label: 'Last', icon: Icon(Icons.abc_rounded)),
-
         ],
       ),
     );

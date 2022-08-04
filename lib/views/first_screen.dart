@@ -5,6 +5,8 @@ import 'package:learning_1ui_6228/utilities/helper.dart';
 import 'package:learning_1ui_6228/utilities/widgets/app_line.dart';
 
 import 'package:learning_1ui_6228/utilities/widgets/list_tile_widget.dart';
+import 'package:learning_1ui_6228/utilities/widgets/search_user.dart';
+import 'package:learning_1ui_6228/views/nav_pages/profile_page.dart';
 
 class FirstScreen extends StatefulWidget {
   const FirstScreen({Key? key}) : super(key: key);
@@ -14,33 +16,34 @@ class FirstScreen extends StatefulWidget {
 }
 
 class _FirstScreenState extends State<FirstScreen> {
-  List<Map<String, dynamic>> allUser = UserList().allUser;
-  List<Map<String, dynamic>> findUser = [];
-  TextEditingController textController= TextEditingController();
+  //List<Map<String, dynamic>> allUser = UserList().allUser;
+  //List<Map<String, dynamic>> findUser = [];
+  TextEditingController textController = TextEditingController();
 
   @override
   void initState() {
-    findUser = allUser;
+    searchedList = userList;
     super.initState();
   }
 
-  void searchUserFromList(String enteredWord) {
-    print(enteredWord);
-    List<Map<String, dynamic>> result = [];
-    print('THis result List'+ result.toString());
-    if (enteredWord.isEmpty) {
-      result = allUser;
-    } else {
-      result = allUser
-          .where((user) =>
-              user["name"].toLowerCase().contains(enteredWord.toLowerCase()))
-          .toList();
-    }
-    setState(() {
-      findUser = result;
-    });
-    print(findUser);
-  }
+  // void searchUserFromList(String enteredWord) {
+  //   print(enteredWord);
+  //   List<Map<String, dynamic>> result = [];
+  //
+  //   print(' add result user result user $result');
+  //   if (enteredWord.isEmpty) {
+  //     result = allUser;
+  //   } else {
+  //     result = allUser
+  //         .where((user) =>
+  //             user["name"].toLowerCase().contains(enteredWord.toLowerCase()))
+  //         .toList();
+  //   }
+  //   setState(() {
+  //     findUser = result;
+  //   });
+  //   print('Find User from all user list $findUser');
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -51,9 +54,7 @@ class _FirstScreenState extends State<FirstScreen> {
           children: [
             //1st Section
             Container(
-              // color: Colors.white,
-              //height: HelperClass.h250,
-              height: HelperClass.h200,
+              height: HelperClass.h250,
               decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: AppColors.gradientColor,
@@ -100,7 +101,7 @@ class _FirstScreenState extends State<FirstScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: HelperClass.h30,
+                    height: HelperClass.h25,
                   ),
                   //Search Bar
                   Container(
@@ -111,11 +112,28 @@ class _FirstScreenState extends State<FirstScreen> {
                     width: double.infinity,
                     child: TextField(
                       controller: textController,
-                      onChanged: (value)=>searchUserFromList(value),
-
+                      onChanged: (name) {
+                        setState(() {
+                          SearchUser().searchUser(name);
+                        });
+                      },
                       decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.search),
-                        suffixIcon: Icon(Icons.clear),
+                        prefix: Icon(
+                          Icons.search,
+                          size: 26,
+                        ),
+                        suffix: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              textController.clear();
+                              searchedList = userList;
+                            });
+                          },
+                          icon: Icon(
+                            Icons.clear,
+                            size: 26,
+                          ),
+                        ),
                         hintText: 'Search',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(3),
@@ -132,25 +150,44 @@ class _FirstScreenState extends State<FirstScreen> {
 
             // List View
             Expanded(
-                child: findUser.isNotEmpty
+                child: searchedList.isNotEmpty
                     ? ListView.builder(
                         shrinkWrap: true,
-                        itemCount: findUser.length,
+                        itemCount: searchedList.length,
                         itemBuilder: (context, index) {
-                          
-
                           return Padding(
                             padding: EdgeInsets.all(10),
                             child: Column(
-                              key: ValueKey(findUser[index]),
                               children: [
-                                ListTileWidgets(
-                                  name: allUser[index]['name'],
-                                  followersCount: allUser[index]['Followers'],
-                                  iconWidget: Icon(
-                                    Icons.person_add_alt_outlined,
-                                    color: Colors.red,
-                                    size: 25,
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => ProfilePage(
+                                            userName: searchedList[index].name,
+                                            followers:
+                                                searchedList[index].followers,
+                                            address:
+                                                searchedList[index].address,
+                                            following:
+                                                searchedList[index].following,
+                                            imageUrl: searchedList[index].url,
+                                          ),
+                                        ));
+                                  },
+                                  child: ListTileWidgets(
+                                    following: searchedList[index].following,
+                                    address: searchedList[index].address,
+                                    imageUrl: searchedList[index].url.toString(),
+                                    name: searchedList[index].name,
+                                    followersCount:
+                                        'Followers: ${searchedList[index].followers}',
+                                    iconWidget: Icon(
+                                      Icons.person_add_alt_outlined,
+                                      color: Colors.red,
+                                      size: 25,
+                                    ),
                                   ),
                                 ),
                                 AppLine(
