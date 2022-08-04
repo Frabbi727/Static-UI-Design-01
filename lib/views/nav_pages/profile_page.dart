@@ -7,9 +7,16 @@ import 'package:learning_1ui_6228/utilities/widgets/app_line.dart';
 import 'package:learning_1ui_6228/utilities/widgets/big_text.dart';
 import 'package:learning_1ui_6228/utilities/widgets/list_tile_widget.dart';
 import 'package:learning_1ui_6228/utilities/widgets/small_text.dart';
+import 'package:learning_1ui_6228/views/first_screen.dart';
+import 'package:learning_1ui_6228/views/main_pages.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  String? userName;
+  String? address;
+  String? followers;
+
+  ProfilePage({Key? key, this.userName, this.address, this.followers})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +24,19 @@ class ProfilePage extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            automaticallyImplyLeading: false,
             pinned: true,
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                    onPressed: () {}, icon: Icon(Icons.arrow_back_ios_new)),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MainPage()),
+                      );
+                    },
+                    icon: Icon(Icons.arrow_back_ios_new)),
                 IconButton(
                     onPressed: () {}, icon: Icon(Icons.messenger_outline)),
               ],
@@ -35,7 +49,6 @@ class ProfilePage extends StatelessWidget {
                 gradient: LinearGradient(
                   colors: AppColors.gradientColor,
                 ),
-
               ),
               child: FlexibleSpaceBar(
                 background: Padding(
@@ -59,7 +72,7 @@ class ProfilePage extends StatelessWidget {
                       Column(
                         children: [
                           BigText(
-                            content: 'WIll Smith',
+                            content: userName.toString(),
                             textColor: Colors.black,
                             textSize: 24,
                           ),
@@ -84,7 +97,7 @@ class ProfilePage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 BigText(
-                                  content: '500',
+                                  content: followers.toString(),
                                 ),
                                 SmallText(
                                   content: 'Followers',
@@ -104,7 +117,6 @@ class ProfilePage extends StatelessWidget {
                                 )
                               ],
                             ),
-
                             InkWell(
                               child: ActionButton(
                                 buttonName: 'Follow',
@@ -147,9 +159,7 @@ class ProfilePage extends StatelessWidget {
                   )
                 ],
               ),
-            )
-
-                ;
+            );
           })),
         ],
       ),
