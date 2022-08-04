@@ -14,8 +14,11 @@ class ProfilePage extends StatelessWidget {
   String? userName;
   String? address;
   String? followers;
+  String? following;
+  String? imageUrl;
 
-  ProfilePage({Key? key, this.userName, this.address, this.followers})
+
+  ProfilePage({Key? key, this.userName, this.address, this.followers,this.following, this.imageUrl})
       : super(key: key);
 
   @override
@@ -62,7 +65,7 @@ class ProfilePage extends StatelessWidget {
                       ),
                       CircleAvatar(
                         backgroundImage:
-                            AssetImage('assets/images/avatar01.jpg'),
+                            NetworkImage(imageUrl.toString()),
                         radius: HelperClass.r50,
                       ),
                       SizedBox(
@@ -78,7 +81,7 @@ class ProfilePage extends StatelessWidget {
                           ),
                           //Text('WIll Smith'),
                           SmallText(
-                            content: 'Mogbazar, Dhaka',
+                            content: address??'N/A',
                             textColor: Colors.black,
                             textSize: 14,
                           ),
@@ -109,7 +112,7 @@ class ProfilePage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 BigText(
-                                  content: '15',
+                                  content: following??'n/a',
                                 ),
                                 SmallText(
                                   content: 'Following',

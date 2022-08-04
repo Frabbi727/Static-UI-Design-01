@@ -26,8 +26,6 @@ class _FirstScreenState extends State<FirstScreen> {
     super.initState();
   }
 
-
-
   // void searchUserFromList(String enteredWord) {
   //   print(enteredWord);
   //   List<Map<String, dynamic>> result = [];
@@ -56,7 +54,6 @@ class _FirstScreenState extends State<FirstScreen> {
           children: [
             //1st Section
             Container(
-
               height: HelperClass.h250,
               decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -121,7 +118,10 @@ class _FirstScreenState extends State<FirstScreen> {
                         });
                       },
                       decoration: InputDecoration(
-                        prefix: Icon(Icons.search, size: 26,),
+                        prefix: Icon(
+                          Icons.search,
+                          size: 26,
+                        ),
                         suffix: IconButton(
                           onPressed: () {
                             setState(() {
@@ -129,7 +129,10 @@ class _FirstScreenState extends State<FirstScreen> {
                               searchedList = userList;
                             });
                           },
-                          icon: Icon(Icons.clear, size: 26,),
+                          icon: Icon(
+                            Icons.clear,
+                            size: 26,
+                          ),
                         ),
                         hintText: 'Search',
                         border: OutlineInputBorder(
@@ -155,20 +158,31 @@ class _FirstScreenState extends State<FirstScreen> {
                           return Padding(
                             padding: EdgeInsets.all(10),
                             child: Column(
-
                               children: [
                                 InkWell(
-                                  onTap: (){
+                                  onTap: () {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => ProfilePage(userName: searchedList[index].name, followers: searchedList[index].followers),
+                                          builder: (context) => ProfilePage(
+                                            userName: searchedList[index].name,
+                                            followers:
+                                                searchedList[index].followers,
+                                            address:
+                                                searchedList[index].address,
+                                            following:
+                                                searchedList[index].following,
+                                            imageUrl: searchedList[index].url,
+                                          ),
                                         ));
-                                  } ,
+                                  },
                                   child: ListTileWidgets(
-                                    url: searchedList[index].url.toString(),
+                                    following: searchedList[index].following,
+                                    address: searchedList[index].address,
+                                    imageUrl: searchedList[index].url.toString(),
                                     name: searchedList[index].name,
-                                    followersCount:'Followers: ${searchedList[index].followers}',
+                                    followersCount:
+                                        'Followers: ${searchedList[index].followers}',
                                     iconWidget: Icon(
                                       Icons.person_add_alt_outlined,
                                       color: Colors.red,
