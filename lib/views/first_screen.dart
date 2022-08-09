@@ -40,20 +40,21 @@ class _FirstScreenState extends State<FirstScreen> {
     } else {
       return throw Exception('Failed to load album');
     }
-  }
+
+}
 
 
-  void searchUser(String enteredData){
-    print('entered word + ${enteredData}');
-    searchedList = [];
-    for(int i=0; i<UserModel.length; i++){
-      if(userList[i].data![i].firstName!.toLowerCase().contains(enteredData.toLowerCase())){
-        searchedList.add(userList[i]);
-      }
-    }
-  }
-
-List<UserModel> searchedList = [];
+//   void searchUser(String enteredData){
+//     print('entered word + ${enteredData}');
+//     searchedList = [];
+//     for(int i=0; i<UserModel.length; i++){
+//       if(userList[i].data![i].firstName!.toLowerCase().contains(enteredData.toLowerCase())){
+//         searchedList.add(userList[i]);
+//       }
+//     }
+//   }
+//
+// List<UserModel> searchedList = [];
 
 
   @override
