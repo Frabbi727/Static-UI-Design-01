@@ -21,22 +21,20 @@ class FirstScreen extends StatefulWidget {
 }
 
 class _FirstScreenState extends State<FirstScreen> {
-  Future<UserModel>? futureUser;
+  UserModel? userModel;
+
   TextEditingController textController = TextEditingController();
 
-  // List<UserModel> userList=[];
   @override
   void initState() {
-    // searchedList = userList;
-    getData();
-    futureUser = fetchData();
+    initFunction();
     super.initState();
   }
-  List<UserModel>? userList = [];
-  Future<UserModel>? fetchData() async {
+
+  Future<UserModel?> fetchData() async {
     final response =
         await http.get(Uri.parse('https://reqres.in/api/users?page=2'));
-    print('This is Response: $response');
+    print('This is Response: ${response.body.toString()}');
     if (response.statusCode == 200) {
       return UserModel.fromJson(jsonDecode(response.body));
     } else {
@@ -44,37 +42,17 @@ class _FirstScreenState extends State<FirstScreen> {
     }
   }
 
-  // List<UserModel> searchedList = [];
-  // void searchUser(String enteredData){
-  //   print('entered word + ${enteredData}');
-  //   searchedList = [];
-  //   for(int i=0; i<userList!.length; i++){
-  //     if(userList![i].data![i].firstName!.toLowerCase().contains(enteredData.toLowerCase())){
-  //       searchedList.add(userList![i]);
-  //     }
-  //   }
-  // }
-List<UserModel> userModelList=[];
-Future<List<UserModel>> getData () async {
-    final response=await http.get(Uri.parse('https://reqres.in/api/users?page=2'));
-    var data = jsonDecode(response.body.toString());
-    if(response.statusCode==200){
-      for(Map i in data){
-        userModelList.add(UserModel.fromJson(data[i]));
-      }
-      print('User Data list ${userModelList}');
-      return userModelList;
-    }else {
-      return [];
-    }
-
-}
-
-
+  void initFunction() async {
+    UserModel? data = await fetchData();
+    setState(() {
+      userModel = data;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    print('user list ModelListdata + $userModelList');
+    // print('user list ModelListdata + $userModel');
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color(0xfff8f8fa),
@@ -142,7 +120,7 @@ Future<List<UserModel>> getData () async {
                       controller: textController,
                       onChanged: (name) {
                         setState(() {
-                         // searchUser(name);
+                          //searchUser(name);
                         });
                       },
                       decoration: InputDecoration(
@@ -179,71 +157,84 @@ Future<List<UserModel>> getData () async {
             // List View
             Expanded(
               child: FutureBuilder(
-                future: getData(),
-                  builder: (context, snapshot){
-                if(snapshot.hasData){
-                  return ListView.builder(
-                    itemCount: userModelList.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Column(
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ProfilePage(
-                                       // userName:snapshot.data!.data![index].firstName??'',
-                                        userName: userModelList[index].data![index].firstName??'',
+                  future: fetchData(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                        itemCount: userModel!.data!.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Column(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => ProfilePage(
+                                            // userName:snapshot.data!.data![index].firstName??'',
+                                            // userName: userModelList[index].data![index].firstName??'',
+                                            userName: userModel!
+                                                .data![index].firstName,
 
-                                        //followers: snapshot.data!.data![index].id.toString(),
-                                        followers: userModelList[index].data![index].id.toString()??'N/A',
+                                            //followers: snapshot.data!.data![index].id.toString(),
+                                            //followers: userModelList[index].data![index].id.toString()??'N/A',
 
-                                       // address: snapshot.data!.data![index].email.toString(),
-                                        address: userModelList[index].data![index].email??'',
+                                            followers: userModel!
+                                                .data![index].id
+                                                .toString(),
+                                            // address: snapshot.data!.data![index].email.toString(),
+                                            //address: userModelList[index].data![index].email??'',
+                                            address:
+                                                userModel!.data![index].email,
 
-                                        //following: snapshot.data!.data![index].lastName.toString(),
-                                        following: userModelList[index].data![index].lastName,
-                                        //imageUrl: snapshot.data!.data![index].avatar.toString(),
-                                        imageUrl: userModelList[index].data![index].avatar??'N/A',
-                                      ),
-                                    ));
-                              },
-                              child: ListTileWidgets(
-                                following:userModelList[index].data![index].lastName,
-                                address:  userModelList[index].data![index].email??'',
-                                imageUrl:userModelList[index].data![index].avatar??'N/A',
-                                name: userModelList[index].data![index].firstName??'',
-                                followersCount:
-                                'Followers: ${userModelList[index].data![index].lastName}',
-                                iconWidget: Icon(
-                                  Icons.person_add_alt_outlined,
-                                  color: Colors.red,
-                                  size: 25,
+                                            //following: snapshot.data!.data![index].lastName.toString(),
+                                            //following: userModelList[index].data![index].lastName,
+                                            following: userModel!
+                                                .data![index].lastName,
+                                            //imageUrl: snapshot.data!.data![index].avatar.toString(),
+                                            //imageUrl: userModelList[index].data![index].avatar??'N/A',
+                                            imageUrl:
+                                                userModel!.data![index].avatar,
+                                          ),
+                                        ));
+                                  },
+                                  child: ListTileWidgets(
+                                    following: userModel!.data![index].lastName,
+                                    address:
+                                        userModel!.data![index].email ?? '',
+                                    imageUrl:
+                                        userModel!.data![index].avatar ?? 'N/A',
+                                    name:
+                                        userModel!.data![index].firstName ?? '',
+                                    followersCount:
+                                        'Followers: ${userModel!.data![index].lastName}',
+                                    iconWidget: Icon(
+                                      Icons.person_add_alt_outlined,
+                                      color: Colors.red,
+                                      size: 25,
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                AppLine(
+                                    paddingLeft: 10,
+                                    paddingRight: 10,
+                                    heightLine: 1,
+                                    lineColor: Colors.grey),
+                              ],
                             ),
-                            AppLine(
-                                paddingLeft: 10,
-                                paddingRight: 10,
-                                heightLine: 1,
-                                lineColor: Colors.grey),
-                          ],
-                        ),
+                          );
+                        },
                       );
-                    },
-                  );
-                }
-                else if (snapshot.hasError) {
-                  return Text('${snapshot.error}');
-                }
+                    } else if (snapshot.hasError) {
+                      return Text('${snapshot.error}');
+                    }
 
-                // By default, show a loading spinner.
-                return Center(child: CircularProgressIndicator());
-              }),
+                    // By default, show a loading spinner.
+                    return Center(child: CircularProgressIndicator());
+                  }),
             ),
           ],
         ),
