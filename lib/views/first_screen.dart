@@ -1,12 +1,17 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:learning_1ui_6228/model/user_list.dart';
+
 import 'package:learning_1ui_6228/utilities/app_colors.dart';
 import 'package:learning_1ui_6228/utilities/helper.dart';
 import 'package:learning_1ui_6228/utilities/widgets/app_line.dart';
 
 import 'package:learning_1ui_6228/utilities/widgets/list_tile_widget.dart';
-import 'package:learning_1ui_6228/utilities/widgets/search_user.dart';
+
 import 'package:learning_1ui_6228/views/nav_pages/profile_page.dart';
+import 'package:http/http.dart' as http;
+
+import '../model/UserModel.dart';
 
 class FirstScreen extends StatefulWidget {
   const FirstScreen({Key? key}) : super(key: key);
@@ -16,37 +21,45 @@ class FirstScreen extends StatefulWidget {
 }
 
 class _FirstScreenState extends State<FirstScreen> {
-  //List<Map<String, dynamic>> allUser = UserList().allUser;
-  //List<Map<String, dynamic>> findUser = [];
+  Future<UserModel>? futureUser;
   TextEditingController textController = TextEditingController();
 
+  // List<UserModel> userList=[];
   @override
   void initState() {
-    searchedList = userList;
+    // searchedList = userList;
+    futureUser = fetchData();
     super.initState();
   }
 
-  // void searchUserFromList(String enteredWord) {
-  //   print(enteredWord);
-  //   List<Map<String, dynamic>> result = [];
-  //
-  //   print(' add result user result user $result');
-  //   if (enteredWord.isEmpty) {
-  //     result = allUser;
-  //   } else {
-  //     result = allUser
-  //         .where((user) =>
-  //             user["name"].toLowerCase().contains(enteredWord.toLowerCase()))
-  //         .toList();
-  //   }
-  //   setState(() {
-  //     findUser = result;
-  //   });
-  //   print('Find User from all user list $findUser');
-  // }
+  Future<UserModel> fetchData() async {
+    final response =
+        await http.get(Uri.parse('https://reqres.in/api/users?page=2'));
+    if (response.statusCode == 200) {
+      return UserModel.fromJson(jsonDecode(response.body));
+    } else {
+      return throw Exception('Failed to load album');
+    }
+
+}
+
+
+//   void searchUser(String enteredData){
+//     print('entered word + ${enteredData}');
+//     searchedList = [];
+//     for(int i=0; i<UserModel.length; i++){
+//       if(userList[i].data![i].firstName!.toLowerCase().contains(enteredData.toLowerCase())){
+//         searchedList.add(userList[i]);
+//       }
+//     }
+//   }
+//
+// List<UserModel> searchedList = [];
+
 
   @override
   Widget build(BuildContext context) {
+    print('user list data + $futureUser');
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color(0xfff8f8fa),
@@ -114,7 +127,7 @@ class _FirstScreenState extends State<FirstScreen> {
                       controller: textController,
                       onChanged: (name) {
                         setState(() {
-                          SearchUser().searchUser(name);
+                          //SearchUser().searchUser(name);
                         });
                       },
                       decoration: InputDecoration(
@@ -126,7 +139,7 @@ class _FirstScreenState extends State<FirstScreen> {
                           onPressed: () {
                             setState(() {
                               textController.clear();
-                              searchedList = userList;
+                              //searchedList = userList;
                             });
                           },
                           icon: Icon(
@@ -150,58 +163,68 @@ class _FirstScreenState extends State<FirstScreen> {
 
             // List View
             Expanded(
-                child: searchedList.isNotEmpty
-                    ? ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: searchedList.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Column(
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => ProfilePage(
-                                            userName: searchedList[index].name,
-                                            followers:
-                                                searchedList[index].followers,
-                                            address:
-                                                searchedList[index].address,
-                                            following:
-                                                searchedList[index].following,
-                                            imageUrl: searchedList[index].url,
-                                          ),
-                                        ));
-                                  },
-                                  child: ListTileWidgets(
-                                    following: searchedList[index].following,
-                                    address: searchedList[index].address,
-                                    imageUrl: searchedList[index].url.toString(),
-                                    name: searchedList[index].name,
-                                    followersCount:
-                                        'Followers: ${searchedList[index].followers}',
-                                    iconWidget: Icon(
-                                      Icons.person_add_alt_outlined,
-                                      color: Colors.red,
-                                      size: 25,
-                                    ),
-                                  ),
+              child: FutureBuilder<UserModel>(
+                future: futureUser,
+                  builder: (context, snapshot){
+                if(snapshot.hasData){
+                  return ListView.builder(
+                    itemCount: snapshot.data!.data!.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ProfilePage(
+                                        userName:snapshot.data!.data![index].firstName??'',
+
+                                        followers: snapshot.data!.data![index].id.toString(),
+
+                                        address: snapshot.data!.data![index].email.toString(),
+
+                                        following: snapshot.data!.data![index].lastName.toString(),
+                                        imageUrl: snapshot.data!.data![index].avatar.toString(),
+                                      ),
+                                    ));
+                              },
+                              child: ListTileWidgets(
+                                following: snapshot.data!.data![index].lastName.toString(),
+                                address: snapshot.data!.data![index].email.toString(),
+                                imageUrl:snapshot.data!.data![index].avatar.toString(),
+                                name: snapshot.data!.data![index].firstName??'',
+                                followersCount:
+                                'Followers: ${snapshot.data!.data![index].id.toString()}',
+                                iconWidget: Icon(
+                                  Icons.person_add_alt_outlined,
+                                  color: Colors.red,
+                                  size: 25,
                                 ),
-                                AppLine(
-                                    paddingLeft: 10,
-                                    paddingRight: 10,
-                                    heightLine: 1,
-                                    lineColor: Colors.grey),
-                              ],
+                              ),
                             ),
-                          );
-                        })
-                    : Container(
-                        child: Text("No user Found"),
-                      )),
+                            AppLine(
+                                paddingLeft: 10,
+                                paddingRight: 10,
+                                heightLine: 1,
+                                lineColor: Colors.grey),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                }
+                else if (snapshot.hasError) {
+                  return Text('${snapshot.error}');
+                }
+
+                // By default, show a loading spinner.
+                return Center(child: CircularProgressIndicator());
+              }),
+            ),
           ],
         ),
       ),
