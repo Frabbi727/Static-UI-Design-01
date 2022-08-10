@@ -4,12 +4,15 @@ import 'package:learning_1ui_6228/utilities/widgets/small_text.dart';
 import 'package:intl/intl.dart';
 
 class ActivityWidget extends StatelessWidget {
-  const ActivityWidget({Key? key}) : super(key: key);
+   ActivityWidget({Key? key, this.imageUrl, this.universityName, this.formattedDate}) : super(key: key);
+  String? universityName;
+  String? imageUrl;
+  DateTime? formattedDate;
 
   @override
   Widget build(BuildContext context) {
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat('EE, d-MMM, h.m').format(now);
+   // DateTime now = DateTime.now();
+    String format = DateFormat('EE, d-MMM, h.m').format(formattedDate!);
 
     return Container(
       margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
@@ -41,7 +44,7 @@ class ActivityWidget extends StatelessWidget {
               //image
               CircleAvatar(
                 backgroundImage: NetworkImage(
-                    'https://pics.freeicons.io/uploads/icons/png/9311412861606062171-512.png'),
+                    imageUrl??''),
                 radius: 40,
               ),
               // name address
@@ -52,14 +55,15 @@ class ActivityWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     BigText(
-                      content: 'Hilsson collages Uk',
+                      content: universityName??'',
+                      overFlow: TextOverflow.ellipsis,
                       textSize: 16,
                     ),
                     SmallText(
                       content: "2016/2017",
                       textSize: 16,
                     ),
-                    SmallText(content: formattedDate, textSize: 16),
+                    SmallText(content: format, textSize: 16),
                   ],
                 ),
               )

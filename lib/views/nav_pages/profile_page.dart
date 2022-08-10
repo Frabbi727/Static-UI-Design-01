@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:learning_1ui_6228/model/MakeUpDetails.dart';
 import 'package:learning_1ui_6228/utilities/app_colors.dart';
 import 'package:learning_1ui_6228/utilities/helper.dart';
 import 'package:learning_1ui_6228/utilities/widgets/action_button.dart';
@@ -9,20 +12,81 @@ import 'package:learning_1ui_6228/utilities/widgets/list_tile_widget.dart';
 import 'package:learning_1ui_6228/utilities/widgets/small_text.dart';
 import 'package:learning_1ui_6228/views/first_screen.dart';
 import 'package:learning_1ui_6228/views/main_pages.dart';
+import 'package:http/http.dart' as http;
 
-class ProfilePage extends StatelessWidget {
+import '../../model/UniversityDetails.dart';
+
+class ProfilePage extends StatefulWidget {
   String? userName;
   String? address;
   String? followers;
   String? following;
   String? imageUrl;
 
-
-  ProfilePage({Key? key, this.userName, this.address, this.followers,this.following, this.imageUrl})
+  ProfilePage(
+      {Key? key,
+      this.userName,
+      this.address,
+      this.followers,
+      this.following,
+      this.imageUrl})
       : super(key: key);
 
   @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+// List<UniversityDetails?> universityList=[];
+  UniversityDetails? universityDetails;
+
+  @override
+  void initState() {
+    getMakeUpData();
+
+  } //   Future<UniversityDetails?> fetchUniverstiyData() async {
+//     final response =
+//         await http.get(Uri.parse('https://reqres.in/api/users?page=2'));
+//     print('This is Response: $response');
+//     if (response.statusCode == 200) {
+//       return UniversityDetails.fromJson(jsonDecode(response.body));
+//     } else {
+//       return throw Exception('Failed to load album');
+//     }
+//   }
+//
+//   void initFunction() async {
+//     UniversityDetails? data =
+//         await fetchUniverstiyData(); // you have to await until get the response
+//
+// //then setState to local variable so it can display to widget
+// // if you skip this , your usermodel is null
+//     setState(() {
+//       universityDetails = data;
+//     });
+//   }
+//
+//   @override
+//   void initState() {
+//     initFunction();
+//   }
+
+
+  List<MakeUpDetails> makeUpDetailsList=[];
+  Future<List<MakeUpDetails>> getMakeUpData()async{
+    var response = await http.get(Uri.parse('https://makeup-api.herokuapp.com/api/v1/products.json'));
+
+    makeUpDetailsList=(json.decode(response.body) as List).map((i) =>
+        MakeUpDetails.fromJson(i)).toList();
+    setState(() { makeUpDetailsList; });
+
+    return makeUpDetailsList;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print('University details ${makeUpDetailsList}');
+
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -65,7 +129,7 @@ class ProfilePage extends StatelessWidget {
                       ),
                       CircleAvatar(
                         backgroundImage:
-                            NetworkImage(imageUrl.toString()),
+                            NetworkImage(widget.imageUrl.toString()),
                         radius: HelperClass.r50,
                       ),
                       SizedBox(
@@ -75,13 +139,13 @@ class ProfilePage extends StatelessWidget {
                       Column(
                         children: [
                           BigText(
-                            content: userName.toString(),
+                            content: widget.userName.toString(),
                             textColor: Colors.black,
                             textSize: 24,
                           ),
                           //Text('WIll Smith'),
                           SmallText(
-                            content: address??'N/A',
+                            content: widget.address ?? 'N/A',
                             textColor: Colors.black,
                             textSize: 14,
                           ),
@@ -100,7 +164,7 @@ class ProfilePage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 BigText(
-                                  content: followers.toString(),
+                                  content: widget.followers.toString(),
                                 ),
                                 SmallText(
                                   content: 'Followers',
@@ -112,7 +176,7 @@ class ProfilePage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 BigText(
-                                  content: following??'n/a',
+                                  content: widget.following ?? 'n/a',
                                 ),
                                 SmallText(
                                   content: 'Following',
@@ -147,13 +211,19 @@ class ProfilePage extends StatelessWidget {
             ),
           ),
           SliverList(
+
               delegate:
-                  SliverChildBuilderDelegate(childCount: 20, (context, index) {
+                  SliverChildBuilderDelegate(childCount: makeUpDetailsList.length, (context, index) {
             return Padding(
               padding: const EdgeInsets.all(10.0),
               child: Column(
                 children: [
-                  ActivityWidget(),
+                  ActivityWidget(
+                    imageUrl:
+                        'https://pics.freeicons.io/uploads/icons/png/9311412861606062171-512.png',
+                    universityName: makeUpDetailsList[index].id.toString(),
+                    formattedDate: DateTime.now(),
+                  ),
                   AppLine(
                     heightLine: 2,
                     paddingLeft: 0,
