@@ -43,42 +43,19 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     getMakeUpData();
+  }
+  List<MakeUpDetails> makeUpDetailsList = [];
 
-  } //   Future<UniversityDetails?> fetchUniverstiyData() async {
-//     final response =
-//         await http.get(Uri.parse('https://reqres.in/api/users?page=2'));
-//     print('This is Response: $response');
-//     if (response.statusCode == 200) {
-//       return UniversityDetails.fromJson(jsonDecode(response.body));
-//     } else {
-//       return throw Exception('Failed to load album');
-//     }
-//   }
-//
-//   void initFunction() async {
-//     UniversityDetails? data =
-//         await fetchUniverstiyData(); // you have to await until get the response
-//
-// //then setState to local variable so it can display to widget
-// // if you skip this , your usermodel is null
-//     setState(() {
-//       universityDetails = data;
-//     });
-//   }
-//
-//   @override
-//   void initState() {
-//     initFunction();
-//   }
-
-
-  List<MakeUpDetails> makeUpDetailsList=[];
-  Future<List<MakeUpDetails>> getMakeUpData()async{
-    var response = await http.get(Uri.parse('https://makeup-api.herokuapp.com/api/v1/products.json'));
-
-    makeUpDetailsList=(json.decode(response.body) as List).map((i) =>
-        MakeUpDetails.fromJson(i)).toList();
-    setState(() { makeUpDetailsList; });
+  Future<List<MakeUpDetails>> getMakeUpData() async {
+    var response = await http.get(
+        Uri.parse('https://makeup-api.herokuapp.com/api/v1/products.json'));
+    makeUpDetailsList.clear();
+    makeUpDetailsList = (json.decode(response.body) as List)
+        .map((i) => MakeUpDetails.fromJson(i))
+        .toList();
+    setState(() {
+      makeUpDetailsList;
+    });
 
     return makeUpDetailsList;
   }
@@ -211,28 +188,34 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
           SliverList(
+              delegate: SliverChildBuilderDelegate(
+                  childCount: makeUpDetailsList.length, (context, index) {
+            if(makeUpDetailsList.isNotEmpty){
+              return Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  children: [
+                    ActivityWidget(
+                      imageUrl:
+                      makeUpDetailsList[index].imageLink.toString(),
+                      name: makeUpDetailsList[index].name.toString(),
+                      productId: makeUpDetailsList[index].id.toString(),
+                      price: makeUpDetailsList[index].createdAt.toString(),
 
-              delegate:
-                  SliverChildBuilderDelegate(childCount: makeUpDetailsList.length, (context, index) {
-            return Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                children: [
-                  ActivityWidget(
-                    imageUrl:
-                        'https://pics.freeicons.io/uploads/icons/png/9311412861606062171-512.png',
-                    universityName: makeUpDetailsList[index].id.toString(),
-                    formattedDate: DateTime.now(),
-                  ),
-                  AppLine(
-                    heightLine: 2,
-                    paddingLeft: 0,
-                    paddingRight: 0,
-                    lineColor: Colors.black12,
-                  )
-                ],
-              ),
-            );
+
+                    ),
+                    // AppLine(
+                    //   heightLine: 2,
+                    //   paddingLeft: 0,
+                    //   paddingRight: 0,
+                    //   lineColor: Colors.black12,
+                    // ),
+                  ],
+                ),
+              );
+            }else{
+              Center(child: CircularProgressIndicator(),);
+            }
           })),
         ],
       ),
