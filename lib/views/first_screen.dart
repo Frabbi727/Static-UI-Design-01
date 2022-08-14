@@ -12,6 +12,7 @@ import 'package:learning_1ui_6228/views/nav_pages/profile_page.dart';
 import 'package:http/http.dart' as http;
 
 import '../model/UserModel.dart';
+import 'main_pages.dart';
 
 class FirstScreen extends StatefulWidget {
   const FirstScreen({Key? key}) : super(key: key);
@@ -170,36 +171,25 @@ class _FirstScreenState extends State<FirstScreen> {
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => ProfilePage(
-                                            // userName:snapshot.data!.data![index].firstName??'',
-                                            // userName: userModelList[index].data![index].firstName??'',
-                                            userName: userModel!
-                                                .data![index].firstName,
-
-                                            //followers: snapshot.data!.data![index].id.toString(),
-                                            //followers: userModelList[index].data![index].id.toString()??'N/A',
-
-                                            followers: userModel!
-                                                .data![index].id
-                                                .toString(),
-                                            // address: snapshot.data!.data![index].email.toString(),
-                                            //address: userModelList[index].data![index].email??'',
-                                            address:
-                                                userModel!.data![index].email,
-
-                                            //following: snapshot.data!.data![index].lastName.toString(),
-                                            //following: userModelList[index].data![index].lastName,
-                                            following: userModel!
-                                                .data![index].lastName,
-                                            //imageUrl: snapshot.data!.data![index].avatar.toString(),
-                                            //imageUrl: userModelList[index].data![index].avatar??'N/A',
-                                            imageUrl:
-                                                userModel!.data![index].avatar,
-                                          ),
-                                        ));
+                                    /*Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ProfilePage(
+                                          userName:
+                                              userModel!.data![index].firstName,
+                                          followers: userModel!.data![index].id
+                                              .toString(),
+                                          address:
+                                              userModel!.data![index].email,
+                                          following:
+                                              userModel!.data![index].lastName,
+                                          imageUrl:
+                                              userModel!.data![index].avatar,
+                                        ),
+                                      ),
+                                    );*/
+                                    Navigator.pushNamed(
+                                        context, '/profile_page', arguments: "Test");
                                   },
                                   child: ListTileWidgets(
                                     following: userModel!.data![index].lastName,

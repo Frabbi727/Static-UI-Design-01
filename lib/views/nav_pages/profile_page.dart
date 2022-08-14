@@ -38,12 +38,13 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
 // List<UniversityDetails?> universityList=[];
-  UniversityDetails? universityDetails;
+  //UniversityDetails? universityDetails;
 
   @override
   void initState() {
     getMakeUpData();
   }
+
   List<MakeUpDetails> makeUpDetailsList = [];
 
   Future<List<MakeUpDetails>> getMakeUpData() async {
@@ -63,6 +64,8 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     print('University details ${makeUpDetailsList}');
+    final String? args = ModalRoute.of(context)?.settings.arguments as String?;
+    print("args $args");
 
     return Scaffold(
       body: CustomScrollView(
@@ -75,9 +78,11 @@ class _ProfilePageState extends State<ProfilePage> {
               children: [
                 IconButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => MainPage()),
+                      Navigator.pushNamed(
+                        context, '/'
+                        // MaterialPageRoute(
+                        //   builder: (context) => MainPage(),
+                        // ),
                       );
                     },
                     icon: Icon(Icons.arrow_back_ios_new)),
@@ -190,31 +195,24 @@ class _ProfilePageState extends State<ProfilePage> {
           SliverList(
               delegate: SliverChildBuilderDelegate(
                   childCount: makeUpDetailsList.length, (context, index) {
-            if(makeUpDetailsList.isNotEmpty){
+            if (makeUpDetailsList.isNotEmpty) {
               return Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Column(
                   children: [
                     ActivityWidget(
-                      imageUrl:
-                      makeUpDetailsList[index].imageLink.toString(),
+                      imageUrl: makeUpDetailsList[index].imageLink.toString(),
                       name: makeUpDetailsList[index].name.toString(),
                       productId: makeUpDetailsList[index].id.toString(),
                       price: makeUpDetailsList[index].createdAt.toString(),
-
-
                     ),
-                    // AppLine(
-                    //   heightLine: 2,
-                    //   paddingLeft: 0,
-                    //   paddingRight: 0,
-                    //   lineColor: Colors.black12,
-                    // ),
                   ],
                 ),
               );
-            }else{
-              Center(child: CircularProgressIndicator(),);
+            } else {
+              Center(
+                child: CircularProgressIndicator(),
+              );
             }
           })),
         ],

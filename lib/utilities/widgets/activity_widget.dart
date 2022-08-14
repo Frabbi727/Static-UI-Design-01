@@ -4,7 +4,15 @@ import 'package:learning_1ui_6228/utilities/widgets/small_text.dart';
 import 'package:intl/intl.dart';
 
 class ActivityWidget extends StatelessWidget {
-   ActivityWidget({Key? key, this.imageUrl, this.productId, this.formattedDate,this.name, this.price, }) : super(key: key);
+  ActivityWidget({
+    Key? key,
+    this.imageUrl,
+    this.productId,
+    this.formattedDate,
+    this.name,
+    this.price,
+
+  }) : super(key: key);
   String? productId;
   String? imageUrl;
   DateTime? formattedDate;
@@ -18,14 +26,13 @@ class ActivityWidget extends StatelessWidget {
     String format = DateFormat('EE, d-MMM, h.m').format(now);
 
     return  Card(
-
       surfaceTintColor: Colors.redAccent,
-      color: Colors.redAccent,
+      //color: Colors.redAccent,
       shadowColor: Colors.black45,
       clipBehavior: Clip.antiAliasWithSaveLayer,
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
       elevation: 50,
       child: Container(
         margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
@@ -57,8 +64,7 @@ class ActivityWidget extends StatelessWidget {
               children: [
                 //image
                 CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      imageUrl??''),
+                  backgroundImage: NetworkImage(imageUrl ?? ''),
                   radius: 40,
                 ),
                 // name address
@@ -69,14 +75,15 @@ class ActivityWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       BigText(
-                        content: productId??'',
-                        overFlow: TextOverflow.ellipsis,
+                        content: productId ?? '',
+
                         textSize: 16,
                       ),
-                      SmallText(
-                        content: name??'',
-                        textSize: 16,
-                      ),
+                     SmallText(
+                          content: name ?? '',
+                          textSize: 16,
+                        ),
+
                       SmallText(content: price.toString(), textSize: 16),
                     ],
                   ),

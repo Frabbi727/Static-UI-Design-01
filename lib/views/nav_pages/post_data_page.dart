@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 
 import '../../model/PostApiData.dart';
 import 'package:http/http.dart' as http;
-Future<PostApiData> createAlbum(String name, String job ) async {
+
+Future<PostApiData> createAlbum(String name, String job) async {
   final response = await http.post(
     Uri.parse('https://reqres.in/api/users'),
     headers: <String, String>{
@@ -12,8 +13,7 @@ Future<PostApiData> createAlbum(String name, String job ) async {
     },
     body: jsonEncode(<dynamic, dynamic>{
       'name': name,
-      'job':job,
-
+      'job': job,
     }),
   );
 
@@ -28,22 +28,8 @@ Future<PostApiData> createAlbum(String name, String job ) async {
   }
 }
 
-// class Album {
-//   final int id;
-//   final String title;
-//
-//   const Album({required this.id, required this.title});
-//
-//   factory Album.fromJson(Map<String, dynamic> json) {
-//     return Album(
-//       id: json['id'],
-//       title: json['title'],
-//     );
-//   }
-// }
-
 class LastPage extends StatefulWidget {
-   LastPage({super.key});
+  LastPage({super.key});
 
   @override
   State<LastPage> createState() {
@@ -58,47 +44,42 @@ class _LastPageState extends State<LastPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Create Data Example',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Create Data Example'),
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Create Data Example'),
-        ),
-        body: Container(
-          alignment: Alignment.center,
-          padding: const EdgeInsets.all(8.0),
-          child: (_futureAlbum == null) ? buildColumn() : buildFutureBuilder(),
-        ),
+      body: Container(
+        alignment: Alignment.center,
+        padding: const EdgeInsets.all(8.0),
+        child: (_futureAlbum == null) ? buildColumn() : buildFutureBuilder(),
       ),
     );
   }
 
   buildColumn() {
     return Column(
-      //mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         TextField(
           controller: _controller,
-          decoration:  InputDecoration(hintText: 'Enter Name',border: OutlineInputBorder()),
+          decoration: InputDecoration(
+              hintText: 'Enter Name', border: OutlineInputBorder()),
         ),
-        SizedBox(height: 10,),
+        SizedBox(
+          height: 10,
+        ),
         TextField(
           controller: _controller1,
-          decoration:  InputDecoration(hintText: 'Enter Job', border: OutlineInputBorder()),
+          decoration: InputDecoration(
+              hintText: 'Enter Job', border: OutlineInputBorder()),
         ),
         ElevatedButton(
           onPressed: () {
             setState(() {
-              _futureAlbum = createAlbum(_controller.text,
-                  _controller1.text
-              );
+              _futureAlbum = createAlbum(_controller.text, _controller1.text);
             });
           },
-          child:  Text('Create Data'),
+          child: Text('Create Data'),
         ),
       ],
     );
@@ -111,8 +92,14 @@ class _LastPageState extends State<LastPage> {
         if (snapshot.hasData) {
           return Column(
             children: [
-              Text(snapshot.data!.name.toString(), style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
-              Text(snapshot.data!.job.toString(),style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+              Text(
+                snapshot.data!.name.toString(),
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              ),
+              Text(
+                snapshot.data!.job.toString(),
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              ),
             ],
           );
         } else if (snapshot.hasError) {

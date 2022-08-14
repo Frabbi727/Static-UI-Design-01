@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:learning_1ui_6228/views/first_screen.dart';
-import 'package:learning_1ui_6228/views/nav_pages/last_page.dart';
+import 'package:learning_1ui_6228/views/nav_pages/post_data_page.dart';
 import 'package:learning_1ui_6228/views/nav_pages/location_page.dart';
 import 'package:learning_1ui_6228/views/nav_pages/profile_page.dart';
 import 'package:learning_1ui_6228/views/nav_pages/to_page.dart';
@@ -14,6 +14,11 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   List pages = [
+    // 'first_screen',
+    // 'location_page',
+    // 'to_do_page',
+    // 'profile_page',
+    // 'last_page',
     FirstScreen(),
     LocationPage(),
     ToDoPage(),
