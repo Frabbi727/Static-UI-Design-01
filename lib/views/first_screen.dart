@@ -171,7 +171,7 @@ class _FirstScreenState extends State<FirstScreen> {
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    /*Navigator.push(
+                                    Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => ProfilePage(
@@ -187,9 +187,23 @@ class _FirstScreenState extends State<FirstScreen> {
                                               userModel!.data![index].avatar,
                                         ),
                                       ),
-                                    );*/
-                                    Navigator.pushNamed(
-                                        context, '/profile_page', arguments: "Test");
+                                    );
+                                    // Navigator.pushNamed(
+                                    //   context,
+                                    //   '/profile_page',
+                                    //   arguments:
+                                    //   // arguments: ProfilePage(
+                                    //   //   userName:
+                                    //   //       userModel!.data![index].firstName,
+                                    //   //   followers: userModel!.data![index].id
+                                    //   //       .toString(),
+                                    //   //   address: userModel!.data![index].email,
+                                    //   //   following:
+                                    //   //       userModel!.data![index].lastName,
+                                    //   //   imageUrl:
+                                    //   //       userModel!.data![index].avatar,
+                                    //   // ),
+                                    // );
                                   },
                                   child: ListTileWidgets(
                                     following: userModel!.data![index].lastName,

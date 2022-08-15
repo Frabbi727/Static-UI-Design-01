@@ -17,6 +17,7 @@ import 'package:http/http.dart' as http;
 import '../../model/UniversityDetails.dart';
 
 class ProfilePage extends StatefulWidget {
+  static const routename= 'profile_page';
   String? userName;
   String? address;
   String? followers;
