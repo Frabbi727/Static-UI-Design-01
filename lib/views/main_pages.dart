@@ -6,6 +6,7 @@ import 'package:learning_1ui_6228/views/nav_pages/profile_page.dart';
 import 'package:learning_1ui_6228/views/nav_pages/to_page.dart';
 
 class MainPage extends StatefulWidget {
+  static const routename= 'main_page';
   const MainPage({Key? key}) : super(key: key);
 
   @override

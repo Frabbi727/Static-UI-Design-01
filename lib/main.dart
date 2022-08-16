@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:learning_1ui_6228/views/display_product_details.dart';
 import 'package:learning_1ui_6228/views/extra_1.dart';
 
 import 'package:learning_1ui_6228/views/first_screen.dart';
@@ -29,19 +30,7 @@ class MyApp extends StatelessWidget {
 
           // home: MainPage(),
           initialRoute: '/',
-          // routes: {
-          //   '/': (context)=> MainPage(),
-          //   'first_screen': (context)=> FirstScreen(),
-          //   'profile_page': (context)=> ProfilePage(),
-          //
-          //   'location_page':(context)=>LocationPage(),
-          //  'to_do_page':(context)=>ToDoPage(),
-          //
-          //  'last_page':(context)=> LastPage(),
-          //   'extra_1':(context)=>Extra1(),
-          //
-          //
-          // },
+
           onGenerateRoute: generateRoute,
         );
       },
@@ -51,20 +40,36 @@ class MyApp extends StatelessWidget {
 
 Route<dynamic>? generateRoute(RouteSettings settings) {
   final arg = settings.arguments;
-  if(settings.name=='/'){
-    return MaterialPageRoute(builder: (context)=>MainPage());
-  }else if(settings.name=='first_screen'){
-    MaterialPageRoute(builder: (context)=>FirstScreen());
-  }else if(settings.name==ProfilePage.routename){
-    final userName= settings.arguments;
-    final address= settings.arguments;
-    final followers= settings.arguments;
-    final following= settings.arguments;
-    final imageUrl= settings.arguments;
-
-
-
+  print(arg);
+  if (settings.name == '/') {
+    return MaterialPageRoute(builder: (context) => MainPage());
+  } else if (settings.name == 'first_screen') {
+    MaterialPageRoute(builder: (context) => FirstScreen());
+  } else if (settings.name == ProfilePage.routename) {
+    final argument = arg as ProfilePage;
+    print(argument);
+    return MaterialPageRoute(
+      builder: (context) => ProfilePage(
+        userName: argument.userName,
+        address: argument.address,
+        following: argument.following,
+        followers: argument.followers,
+        imageUrl: argument.imageUrl,
+      ),
+    );
+  } else if (settings.name == Extra1.routename) {
+    return MaterialPageRoute(builder: (context) => Extra1());
+  } else if (settings.name == MainPage.routename) {
+    return MaterialPageRoute(builder: (context) => MainPage());
+  } else if (settings.name == DisplayProductDetails.routename) {
+    final argument = arg as DisplayProductDetails;
+    return MaterialPageRoute(
+      builder: (context) => DisplayProductDetails(
+        productIamge: argument.productIamge,
+        productName: argument.productName,
+        dateTIme: argument.dateTIme,
+        productId: argument.productId,
+      ),
+    );
   }
 }
-
-

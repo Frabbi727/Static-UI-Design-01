@@ -15,6 +15,7 @@ import '../model/UserModel.dart';
 import 'main_pages.dart';
 
 class FirstScreen extends StatefulWidget {
+
   const FirstScreen({Key? key}) : super(key: key);
 
   @override
@@ -171,39 +172,38 @@ class _FirstScreenState extends State<FirstScreen> {
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    Navigator.push(
+                                    // Navigator.push(
+                                    //   context,
+                                    //   MaterialPageRoute(
+                                    //     builder: (context) => ProfilePage(
+                                    //       userName:
+                                    //           userModel!.data![index].firstName,
+                                    //       followers: userModel!.data![index].id
+                                    //           .toString(),
+                                    //       address:
+                                    //           userModel!.data![index].email,
+                                    //       following:
+                                    //           userModel!.data![index].lastName,
+                                    //       imageUrl:
+                                    //           userModel!.data![index].avatar,
+                                    //     ),
+                                    //   ),
+                                    // );
+                                    Navigator.pushNamed(
                                       context,
-                                      MaterialPageRoute(
-                                        builder: (context) => ProfilePage(
-                                          userName:
-                                              userModel!.data![index].firstName,
-                                          followers: userModel!.data![index].id
-                                              .toString(),
-                                          address:
-                                              userModel!.data![index].email,
-                                          following:
-                                              userModel!.data![index].lastName,
-                                          imageUrl:
-                                              userModel!.data![index].avatar,
-                                        ),
+                                      'profile_page',
+                                      arguments: ProfilePage(
+                                        userName:
+                                            userModel!.data![index].firstName,
+                                        address: userModel!.data![index].email,
+                                        following:
+                                            userModel!.data![index].lastName,
+                                        followers: userModel!.data![index].id
+                                            .toString(),
+                                        imageUrl:
+                                            userModel!.data![index].avatar,
                                       ),
                                     );
-                                    // Navigator.pushNamed(
-                                    //   context,
-                                    //   '/profile_page',
-                                    //   arguments:
-                                    //   // arguments: ProfilePage(
-                                    //   //   userName:
-                                    //   //       userModel!.data![index].firstName,
-                                    //   //   followers: userModel!.data![index].id
-                                    //   //       .toString(),
-                                    //   //   address: userModel!.data![index].email,
-                                    //   //   following:
-                                    //   //       userModel!.data![index].lastName,
-                                    //   //   imageUrl:
-                                    //   //       userModel!.data![index].avatar,
-                                    //   // ),
-                                    // );
                                   },
                                   child: ListTileWidgets(
                                     following: userModel!.data![index].lastName,

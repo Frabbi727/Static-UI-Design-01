@@ -10,6 +10,7 @@ import 'package:learning_1ui_6228/utilities/widgets/app_line.dart';
 import 'package:learning_1ui_6228/utilities/widgets/big_text.dart';
 import 'package:learning_1ui_6228/utilities/widgets/list_tile_widget.dart';
 import 'package:learning_1ui_6228/utilities/widgets/small_text.dart';
+import 'package:learning_1ui_6228/views/display_product_details.dart';
 import 'package:learning_1ui_6228/views/first_screen.dart';
 import 'package:learning_1ui_6228/views/main_pages.dart';
 import 'package:http/http.dart' as http;
@@ -201,11 +202,30 @@ class _ProfilePageState extends State<ProfilePage> {
                 padding: const EdgeInsets.all(10.0),
                 child: Column(
                   children: [
-                    ActivityWidget(
-                      imageUrl: makeUpDetailsList[index].imageLink.toString(),
-                      name: makeUpDetailsList[index].name.toString(),
-                      productId: makeUpDetailsList[index].id.toString(),
-                      price: makeUpDetailsList[index].createdAt.toString(),
+                    InkWell(
+                      onTap: (){
+                        // Navigator.push(context, MaterialPageRoute(builder: (context)=>DisplayProductDetails(
+                        //   productId: makeUpDetailsList[index].id.toString(),
+                        //   dateTIme:  makeUpDetailsList[index].createdAt.toString(),
+                        //   productName: makeUpDetailsList[index].name.toString(),
+                        //   productIamge: makeUpDetailsList[index].imageLink.toString(),
+                        //
+                        // )));
+                        Navigator.pushNamed(context, 'display_product_details', arguments: DisplayProductDetails(
+                            productId: makeUpDetailsList[index].id.toString(),
+                            dateTIme:  makeUpDetailsList[index].createdAt.toString(),
+                            productName: makeUpDetailsList[index].name.toString(),
+                            productIamge: makeUpDetailsList[index].imageLink.toString(),
+
+                        ));
+
+                      },
+                      child: ActivityWidget(
+                        imageUrl: makeUpDetailsList[index].imageLink.toString(),
+                        name: makeUpDetailsList[index].name.toString(),
+                        productId: makeUpDetailsList[index].id.toString(),
+                        price: makeUpDetailsList[index].createdAt.toString(),
+                      ),
                     ),
                   ],
                 ),
